@@ -74,21 +74,21 @@ def get_card_id(card_name):
     """
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept': 'application/json',
         'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
         'Referer': 'https://ygocdb.com/',
         'Connection': 'keep-alive',
         'Cache-Control': 'max-age=0',
     }
-    search_url = f"https://ygocdb.com/?search={card_name}"
+    search_url = f"https://ygocdb.com/api/v0/?search={card_name}"
     try:
-        tree = fetch_tree_with_wait(search_url, headers=headers,
-                                    required_xpaths=['/html/body/main/div/div[2]/div[2]/h3[3]/span[1]'],
-                                    timeout=10)
-        card_id_element = tree.xpath('/html/body/main/div/div[2]/div[2]/h3[3]/span[1]')
-        if card_id_element and len(card_id_element) > 0:
-            card_id_str = card_id_element[0].text.strip()
-            card_id = int(card_id_str)
+        session = _build_session(headers=headers)
+        response = session.get(search_url, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+
+        if data and 'result' in data and len(data['result']) > 0:
+            card_id = data['result'][0]['id']
             print(f"卡片 '{card_name}' 的ID: {card_id}")
             return card_id
         else:
