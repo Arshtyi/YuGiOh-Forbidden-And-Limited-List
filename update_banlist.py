@@ -245,12 +245,12 @@ if __name__ == "__main__":
     try:
         homepage_tree = fetch_tree_with_wait(yugipedia_url, headers=headers,
                                              required_xpaths=[
-                                                 '/html/body/div[3]/div[3]/div[4]/div/div[1]/div[3]/div[1]/ul/li[1]/a'
+                                                 '/html/body/div[3]/div[4]/div[4]/div/div[1]/div[3]/div[1]/ul/li[1]/a'
                                              ],
                                              timeout=15)
-        tcg_link_element = homepage_tree.xpath('/html/body/div[3]/div[3]/div[4]/div/div[1]/div[3]/div[1]/ul/li[1]/a')
-        md_link_element = homepage_tree.xpath('/html/body/div[3]/div[3]/div[4]/div/div[1]/div[3]/div[1]/ul/li[6]/a')
-        ocg_link_element = homepage_tree.xpath('/html/body/div[3]/div[3]/div[4]/div/div[1]/div[3]/div[1]/ul/li[3]/a')
+        tcg_link_element = homepage_tree.xpath('/html/body/div[3]/div[4]/div[4]/div/div[1]/div[3]/div[1]/ul/li[1]/a')
+        md_link_element = homepage_tree.xpath('/html/body/div[3]/div[4]/div[4]/div/div[1]/div[3]/div[1]/ul/li[6]/a')
+        ocg_link_element = homepage_tree.xpath('/html/body/div[3]/div[4]/div[4]/div/div[1]/div[3]/div[1]/ul/li[3]/a')
         ocg_relative_url = ocg_link_element[0].get('href')
         ocg_url = f"https://yugipedia.com{ocg_relative_url}" if ocg_relative_url.startswith('/') else ocg_relative_url
         ocg_output_path = os.path.join(project_root, "res", "ocg.json")
