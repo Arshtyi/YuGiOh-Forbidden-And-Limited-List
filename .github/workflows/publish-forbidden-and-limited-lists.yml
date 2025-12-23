@@ -37,7 +37,7 @@ jobs:
 
       - name: Run update_banlist script
         run: |
-          uv run update_banlist.py
+          uv run main.py
 
       - name: Compute banlist counts
         id: counts
